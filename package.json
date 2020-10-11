@@ -1,0 +1,39 @@
+{
+  "name": "vi-cinage",
+  "version": "1.0.0",
+  "main": "server.js",
+  "description": "Vicinage Web APIs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adesegunadedeji/vi-cinage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adesegunadedeji/vi-cinage/issues"
+  },
+  "homepage": "https://github.com/adesegunadedeji/vi-cinage#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "init": "^0.1.2",
+    "memorystore": "^1.6.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.7.5",
+    "nodemon": "^1.19.2"
+  },
+  "devDependencies": {
+    "dot-prop": ">=4.2.1",
+    "kind-of": ">=6.0.3"
+  }
+}
