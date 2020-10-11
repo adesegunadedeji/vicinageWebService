@@ -6,8 +6,14 @@ const Listing = require('../models/listings.js');
  *Create Listing
  *@POST {{baseUrl}}/api/v1/listings/add
 */
-router.post('/new', async(req,res)=> {
 
+
+
+router.get('/tester', async(req,res)=> {
+    res.send(" This was a test");
+})
+
+router.post('/new', async(req,res)=> {
     try {
         if (Object.keys(req.body).length == 0)
         return res.status(400).send({ success: false, message: 'Please fill out the fields' });
