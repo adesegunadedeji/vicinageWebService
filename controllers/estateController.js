@@ -29,8 +29,6 @@ router.get('/',async (req, res) => {
 router.post('/new',async(req,res)=>{
     // req.body.user = req.session.userId //To know who's Logged In
     try{
-        if (Object.keys(req.body).length == 0)
-        return res.status(400).send({ success: false, message: 'Please fill all fields' });
         const newRealEstate = await RealEstate.create(req.body); 
             return res.status(201).send({
                 success: true,
@@ -56,7 +54,7 @@ router.get('/:id',  async(req, res) => {
     
     try{
     const estate_id = req.params.id;
-    const singleEstateAgent  = await RealEstate.findOne({ _id: estate_id});
+    const singleEstateAgent  = await RealEstate.findById({ _id: estate_id});
         
     if(!singleEstateAgent){
         return res.status(404).send({

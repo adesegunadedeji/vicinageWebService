@@ -29,8 +29,6 @@ router.get('/', async (req, res, next) => {
  *@POST {{baseUrl}}/api/v1/homes/new
 */
 router.post('/new', async (req, res) => {
-    if (Object.keys(req.body).length === 0)
-    return res.status(400).send({ success: false, message: 'Please fill all  fields' });
     try {
     
         const {image, address,city,listings_id, zip_code,state,country, publishedStatus, year_built,sq_Ft, beds, baths,parking, price, home_type, agency_id} = req.body;
@@ -142,7 +140,7 @@ router.get('/:id',async(req, res) => {
     
     try{
     const home_id = req.params.id;
-    const singleHome  = await Home.findOne({ _id: home_id});
+    const singleHome  = await Home.findById({ _id: home_id});
         
     if(!singleHome){
         return res.status(404).send({

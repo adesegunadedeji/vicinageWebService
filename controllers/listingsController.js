@@ -9,29 +9,7 @@ const Listing = require('../models/listings.js');
 
 
 
-router.get('/tester', async(req,res)=> {
-    res.send(" This was a test");
-})
 
-router.post('/new', async(req,res)=> {
-    try {
-        if (Object.keys(req.body).length == 0)
-        return res.status(400).send({ success: false, message: 'Please fill out the fields' });
-
-        const newListing = await Listing.create(req.body);
-        return res.status(201).send({
-        success: true,
-        message:" Estate Agency added succesfully",
-        data: newListing
-        })
-
-    } catch (error) {
-         return res.status(200).send({
-                success: false,
-                message: 'Estate was not created'
-            })
-    }
-});
 
 /**
  *Fetch Listings
@@ -53,6 +31,23 @@ try {
                 message: error
             })
 }
+});
+
+router.post('/new', async(req,res)=> {
+    try {
+        const newListing = await Listing.create(req.body);
+        return res.status(201).send({
+        success: true,
+        message:" Estate Agency added succesfully",
+        data: newListing
+        })
+
+    } catch (error) {
+         return res.status(200).send({
+                success: false,
+                message: 'Estate was not created'
+            })
+    }
 });
 
 /**
@@ -95,7 +90,7 @@ router.get('/:id', async(req, res) => {
     
     try{
    const listings_id = req.params.id;
-    const singleListing  = await Listing.findOne({ _id: listings_id});
+    const singleListing  = await Listing.findById({ _id: listings_id});
     console.log(singleListing, " SINGlE LISTING")
     if(singleListing){
         return res.status(200).send({
@@ -150,5 +145,10 @@ router.delete('/:id', async(req, res) => {
         })
     }
 });
+
+router.get('/tester', async(req,res)=> {
+    res.send(" This was a test");
+})
+
 
 module.exports = router;
