@@ -8,9 +8,8 @@ const RealEstate = require('../models/realEstate.js');
  *Fetch All Homes
  *@GET {{baseUrl}}/api/v1/homes
 */
-router.get('/', async (req, res, next) => {
-    const allHomes = await Home.find();
-    res.send('HOme is where the heart is', allHomes);
+router.get('/all', async (req, res) => {
+    res.send('HOme is where the heart is');
 
 //     try  {
 //      const allHomes = await Home.find();
