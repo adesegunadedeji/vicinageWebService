@@ -10,10 +10,7 @@ const RealEstate = require('../models/realEstate.js');
 */
 router.get('/', async (req, res, next) => {
     const allHomes = await Home.find();
-    res.send({
-        success: true,
-        data: allHomes
-    })
+    res.send('HOme is where the heart is', allHomes);
 
 //     try  {
 //      const allHomes = await Home.find();
