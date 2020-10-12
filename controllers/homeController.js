@@ -12,8 +12,7 @@ router.get('/', async (req, res, next) => {
 
     try  {
      const allHomes = await Home.find();
-     res.json({
-         code: 200,
+     return res.status(200).send({
          message: "All Homes Fetched", 
          data: allHomes
        });
@@ -63,10 +62,10 @@ router.post('/new', async (req, res) => {
             message: 'new home created successful'
         })
     } catch (error) {
-        res.json({
-            code: 500,
+        return res.status(500).send({
+            success: false,
             message: 'Something went wrong',
-            errors: error
+            error: error
           });
     }
 });
@@ -88,12 +87,10 @@ router.put('/:id', async(req, res) => {
                 });
             }
             else {
-                res.json({
-                    status:{
-                        code:201,
-                        message:"Successfuly Updated Resource"
-                    },
-                        data: singleHome
+                return res.status(201).send({
+                success: true,
+                message:"Successfuly Updated Resource",
+               data: singleHome
                 })}
  }
     catch(err){
@@ -121,13 +118,10 @@ router.delete('/:id', async(req, res) => {
                 message: 'No matching records found',
             })
         }
-else {
-    res.json({
-    status:{
-        code:200,
-        message:"Successfuly Deleted Resource"
-            },
-    data: deletedHome
+    else {
+        return res.status(200).send({
+        message:"Successfuly Deleted Resource",
+        data: deletedHome
 })
 }
 } catch(err){
@@ -150,7 +144,7 @@ router.get('/:id',async(req, res) => {
     const singleHome  = await Home.findOne({ _id: home_id});
         
     if(!singleHome){
-        return res.send({
+        return res.status(404).send({
             success: false,
             message: "No matching records found"
         })
@@ -164,7 +158,6 @@ router.get('/:id',async(req, res) => {
     }
 }
     catch(err){
-        console.log(err)
         res.status(500).send({
             success: false,
             message: " Invalid ID passed",

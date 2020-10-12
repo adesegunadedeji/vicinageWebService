@@ -28,7 +28,6 @@ router.post('/register',async(req,res)=>{
         })
     }
     catch(err){
-            console.log("Error Message: ", err);
             res.status(500).send({
                 success: false,
                 message: err
@@ -55,28 +54,23 @@ router.post('/login', async(req,res)=>{
                     req.session.userId = foundUser._id
                     req.session.username = foundUser.username;
                     req.session.logged = true;
-                    res.json({
-                        status:{
-                            code:200
-                        },
+                    return res.status(200).send({
                         data:foundUser,
                         message: "User has succesfully logged in"
                     })
                 }
                 else{
-                    res.session.message = "Invalid Username or Password"
-                    res.json({
-                        status:{
-                            code: 500
-                        },
+                    return res.status(500).send({
                         message: "Invalid Credentials"
                     })
                 }
     }
 }
     catch(err){
-        console.log(err)
-        res.send(err)
+        return res.status(500).send({
+            success: false,
+            message: error
+        })
     }
 });
 
@@ -85,7 +79,7 @@ router.post('/login', async(req,res)=>{
  *@POST {{baseUrl}}/api/v1/admin/logout
 */
 router.get('/logout', (req, res) => {
-    console.log(req.session, " REq.session");
+    console.log(req.session, " Rqq.session");
     req.session.destroy((err) => {
       if(err){
         res.send(err);
@@ -93,7 +87,7 @@ router.get('/logout', (req, res) => {
         res.redirect('/');// Redirect back to homepage
       }
     })
-  
+
   });
 
 
@@ -105,8 +99,7 @@ router.get('/logout', (req, res) => {
 router.get('/', async (req,res)=> {
     try {
         const allUsers = await User.find();
-        res.json({
-            code: 200,
+        return res.status(200).send({
             message: "All users Fetched", 
             data: allUsers
           });

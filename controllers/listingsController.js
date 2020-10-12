@@ -19,10 +19,10 @@ router.post('/new', async(req,res)=> {
         return res.status(400).send({ success: false, message: 'Please fill out the fields' });
 
         const newListing = await Listing.create(req.body);
-        res.json({
-            status:{code:201,
-                    message:" Estate Agency added succesfully"},
-            data:newListing
+        return res.status(201).send({
+        success: true,
+        message:" Estate Agency added succesfully",
+        data: newListing
         })
 
     } catch (error) {
@@ -71,15 +71,13 @@ router.put('/:id', async (req,res)=> {
              });
          }
          else {
-             res.json({
-                 status:{
-                     code:201,
-                     message:"Successfuly Updated Resource"
-                 },
-                     data: oneListing
+            return res.status(201).send({
+                success: true,
+                message:"Successfuly Updated Resource",
+                data: oneListing
              })}
 }
- catch(err){
+ catch(error){
      return res.status(500).send({
          success: false,
          message: 'Invalid ID passed',
@@ -107,7 +105,7 @@ router.get('/:id', async(req, res) => {
         })
     }
     else {
-        return res.send({
+        return res.status(404).send({
             success: false,
             message: "No matching records found"
         })
@@ -140,12 +138,9 @@ router.delete('/:id', async(req, res) => {
             })
         }
         else {
-    res.json({
-    status:{
-        code:200,
-        message:"Successfuly Deleted Resource"
-            },
-    data: deletedListing
+        return res.status(200).send({
+        message:"Successfuly Deleted Resource",
+        data: deletedListing
 })
 }
 } catch(err){
