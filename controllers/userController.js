@@ -21,14 +21,16 @@ router.post('/register',async(req,res)=>{
         req.session.username = newUser.username;
         req.session.logged = true;
 
-        res.status(200).send({
+        res.json({
+            status: 200,
             success: true,
             message: " User Succesfully created",
             data: newUser
         })
     }
     catch(err){
-            res.status(500).send({
+        res.json({
+            status: 500,
                 success: false,
                 message: err
             })     
@@ -54,20 +56,23 @@ router.post('/login', async(req,res)=>{
                     req.session.userId = foundUser._id
                     req.session.username = foundUser.username;
                     req.session.logged = true;
-                    return res.status(200).send({
+                    res.json({
+                        status: 200,
                         data:foundUser,
                         message: "User has succesfully logged in"
                     })
                 }
                 else{
-                    return res.status(500).send({
+                    res.json({
+                        status: 500,
                         message: "Invalid Credentials"
                     })
                 }
     }
 }
     catch(err){
-        return res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: error
         })
@@ -99,13 +104,15 @@ router.get('/logout', (req, res) => {
 router.get('/', async (req,res)=> {
     try {
         const allUsers = await User.find();
-        return res.status(200).send({
+        res.json({
+            status: 200,
             message: "All users Fetched", 
             data: allUsers
           });
         
     } catch (error) {
-        return res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: error
         })

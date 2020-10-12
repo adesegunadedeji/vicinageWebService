@@ -4,22 +4,24 @@ const Home = require('../models/homes.js');
 const Listing = require('../models/listings.js');
 const RealEstate = require('../models/realEstate.js');
 
+console.log(Listing);
+console.log(RealEstate);
+
 /**
  *Fetch All Homes
  *@GET {{baseUrl}}/api/v1/homes
 */
-router.get('/all', async (req, res) => {
-    //res.send('HOme is where the heart is');
+router.get('/', async (req, res) => {
     try  {
-     const allHomes = await Home.find();
-     console.log(allHomes);
-    //  res.send({
-    //      status: 200,
-    //      message: "All Homes Fetched", 
-    //      data: allHomes
-    //    });
+
+    const allHomes = await RealEstate.find();
+     res.json({
+         status: 200,
+         message: "All Homes Fetched", 
+         data: allHomes
+       });
    } catch (error){
-      res.send({
+      res.json({
         status:500,
          success: false,
          message: error
@@ -58,13 +60,15 @@ router.post('/new', async (req, res) => {
             home_type : home_type
         });
         await new_home.save();
-        return res.status(201).send({
+        res.json({
+            status: 201,
             success: true,
             data: new_home,
             message: 'new home created successful'
         })
     } catch (error) {
-        return res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: 'Something went wrong',
             error: error
@@ -83,20 +87,23 @@ router.put('/:id', async(req, res) => {
 
         const singleHome = await Home.findByIdAndUpdate(req.params.id, req.body, {new: true})
             if (!singleHome) {
-                return res.status(404).send({
+                res.json({
+                status: 404,
                  success: false,
                 message: 'No matching records found for given ID.'
                 });
             }
             else {
-                return res.status(201).send({
+                res.json({
+                status: 201,
                 success: true,
                 message:"Successfuly Updated Resource",
                data: singleHome
                 })}
  }
     catch(err){
-        return res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: 'Invalid ID passed',
             Errors: error
@@ -115,19 +122,22 @@ router.delete('/:id', async(req, res) => {
         const home_id = req.params.id;
         const deletedHome = await Home.findByIdAndRemove({_id: home_id});
         if(!home_id) {
-            return res.status(404).send({
+            res.json({
+                status: 404,
                 success: false,
                 message: 'No matching records found',
             })
         }
     else {
-        return res.status(200).send({
+        res.json({
+        status: 200,
         message:"Successfuly Deleted Resource",
         data: deletedHome
 })
 }
 } catch(err){
-        return res.status(500).send({
+        res.json({
+        status: 500,
             success: false,
             message: error
         })
@@ -146,13 +156,15 @@ router.get('/:id',async(req, res) => {
     const singleHome  = await Home.findById({ _id: home_id});
         
     if(!singleHome){
-        return res.status(404).send({
+        res.json({
+            status: 404,
             success: false,
             message: "No matching records found"
         })
     }
     else {
-        res.status(200).send({
+        res.json({
+            status: 200,
             success: true,
             data: singleHome,
             message: 'Single Home fetched'
@@ -160,7 +172,8 @@ router.get('/:id',async(req, res) => {
     }
 }
     catch(err){
-        res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: " Invalid ID passed",
             error: err

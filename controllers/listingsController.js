@@ -19,14 +19,16 @@ const Listing = require('../models/listings.js');
 router.get('/', async(req,res) => {
 try {
     const allListings = await Listing.find();
-        return res.status(200).send({
+    res.json({
+            status: 200,
             success: true,
             data: allListings,
             message: 'listings data fetched'
         })
 
 } catch (error) {
-     return res.status(500).send({
+        res.json({
+            status: 500,
                 success: false,
                 message: error
             })
@@ -36,14 +38,16 @@ try {
 router.post('/new', async(req,res)=> {
     try {
         const newListing = await Listing.create(req.body);
-        return res.status(201).send({
+        res.json({
+            status: 201,
         success: true,
         message:" Estate Agency added succesfully",
         data: newListing
         })
 
     } catch (error) {
-         return res.status(200).send({
+        res.json({
+            status: 500,
                 success: false,
                 message: 'Estate was not created'
             })
@@ -60,20 +64,23 @@ router.put('/:id', async (req,res)=> {
          //const {_id} = req.body;
          const oneListing = await Listing.findByIdAndUpdate(req.params.id, req.body, {new: true})
          if (!oneListing) {
-             return res.status(404).send({
+            res.json({
+                status: 404,
               success: false,
              message: 'No matching records found for given ID.'
              });
          }
          else {
-            return res.status(201).send({
+            res.json({
+                status: 201,
                 success: true,
                 message:"Successfuly Updated Resource",
                 data: oneListing
              })}
 }
  catch(error){
-     return res.status(500).send({
+    res.json({
+        status: 500,
          success: false,
          message: 'Invalid ID passed',
          Errors: error
@@ -93,14 +100,16 @@ router.get('/:id', async(req, res) => {
     const singleListing  = await Listing.findById({ _id: listings_id});
     console.log(singleListing, " SINGlE LISTING")
     if(singleListing){
-        return res.status(200).send({
+        res.json({
+            status: 200,
             success: true,
             data: singleListing,
             message: 'requested Listing category fetched'
         })
     }
     else {
-        return res.status(404).send({
+        res.json({
+            status: 404,
             success: false,
             message: "No matching records found"
         })
@@ -108,7 +117,8 @@ router.get('/:id', async(req, res) => {
 }
     catch(err){
         console.log(err)
-        res.status(500).send({
+        res.json({
+         status: 500,
             success: false,
             message: " Invalid ID passed",
             error: err
@@ -127,19 +137,22 @@ router.delete('/:id', async(req, res) => {
         const listing_id = req.params.id;
         const deletedListing = await Listing.findByIdAndRemove({_id: listing_id});
         if(!listing_id) {
-            return res.status(404).send({
+            res.json({
+                status: 404,
                 success: false,
                 message: 'No matching records found',
             })
         }
         else {
-        return res.status(200).send({
+            res.json({
+            status: 200,
         message:"Successfuly Deleted Resource",
         data: deletedListing
 })
 }
 } catch(err){
-        return res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: error
         })

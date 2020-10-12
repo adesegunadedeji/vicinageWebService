@@ -7,16 +7,19 @@ const  RealEstate = require('../models/realEstate.js');
  *@GET {{baseUrl}}/api/v1/estates
 */
 router.get('/',async (req, res) => {
+
        try  {
 
         const allAgencies = await RealEstate.find();
-        return res.status(200).send({
+        res.json({
+         status: 200,
             success: true,
             message: "All agencies Fetched", 
             data: allAgencies
           });
       } catch (error){
-        return res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: error
         })
@@ -30,14 +33,16 @@ router.post('/new',async(req,res)=>{
     // req.body.user = req.session.userId //To know who's Logged In
     try{
         const newRealEstate = await RealEstate.create(req.body); 
-            return res.status(201).send({
+            res.json({
+                status: 201,
                 success: true,
                 data: newRealEstate,
                 message: 'Real Estate created successful'
             })
 }
     catch(error){
-           return res.status(200).send({
+        res.json({
+                status: 200,
                 success: false,
                 error: error,
                 message: 'Estate was not created'
@@ -57,13 +62,15 @@ router.get('/:id',  async(req, res) => {
     const singleEstateAgent  = await RealEstate.findById({ _id: estate_id});
         
     if(!singleEstateAgent){
-        return res.status(404).send({
+        res.json({
+            status: 404,
             success: false,
             message: "No matching records found"
         })
     }
     else {
-        res.status(200).send({
+        res.json({
+            status: 200,
             success: true,
             data: singleEstateAgent,
             message: 'Single Estate Agency fetched'
@@ -71,7 +78,8 @@ router.get('/:id',  async(req, res) => {
     }
 }
     catch(error){
-        res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: " Invalid ID passed",
             error: error
@@ -90,19 +98,22 @@ router.put('/:id', async(req, res) => {
         //const {_id} = req.body;
         const singleAgency = await RealEstate.findByIdAndUpdate(req.params.id, req.body, {new: true})
             if (!singleAgency) {
-                return res.status(404).send({
+                res.json({
+                    status: 404,
                  success: false,
                 message: 'No matching records found for given ID.'
                 });
             }
             else {
-                return res.status(201).send({
+                res.json({
+                    status: 201,
                         message:"Successfuly Updated Resource",
                         data: singleAgency
                 })}
  }
     catch(error){
-        return res.status(500).send({
+        res.json({
+            status: 500,
             success: false,
             message: 'Invalid ID passed',
             error: error
@@ -120,19 +131,22 @@ router.delete('/:id', async(req, res) => {
         const estate_id = req.params.id;
         const deletedRealEstate = await RealEstate.findByIdAndRemove({_id: estate_id});
         if(!estate_id) {
-            return res.status(404).send({
+            res.json({
+                status: 404,
                 success: false,
                 message: 'No matching records found',
             })
         }
 else {
-    return res.status(200).send({
+    res.json({
+        status: 200,
         message:"Successfuly Deleted Resource",
-    data: deletedRealEstate
+        data: deletedRealEstate
 })
 }
 } catch(error){
-        return res.status(500).send({
+    res.json({
+        status: 500,
             success: false,
             message: error
         })
