@@ -9,20 +9,21 @@ const RealEstate = require('../models/realEstate.js');
  *@GET {{baseUrl}}/api/v1/homes
 */
 router.get('/all', async (req, res) => {
-    res.send('HOme is where the heart is');
-
-//     try  {
-//      const allHomes = await Home.find();
-//      return res.status(200).send({
-//          message: "All Homes Fetched", 
-//          data: allHomes
-//        });
-//    } catch (error){
-//      return res.status(500).send({
-//          success: false,
-//          message: error
-//      })
-//    }
+    //res.send('HOme is where the heart is');
+    try  {
+     const allHomes = await Home.find();
+     res.send({
+         status: 200,
+         message: "All Homes Fetched", 
+         data: allHomes
+       });
+   } catch (error){
+      res.send({
+        status:500,
+         success: false,
+         message: error
+     })
+   }
 });
 
 /**
