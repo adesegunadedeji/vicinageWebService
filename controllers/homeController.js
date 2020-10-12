@@ -29,9 +29,10 @@ router.get('/', async (req, res, next) => {
  *@POST {{baseUrl}}/api/v1/homes/new
 */
 router.post('/new', async (req, res) => {
+    if (Object.keys(req.body).length === 0)
+    return res.status(400).send({ success: false, message: 'Please fill all  fields' });
     try {
-        if (Object.keys(req.body).length === 0)
-        return res.status(400).send({ success: false, message: 'Please fill all  fields' });
+    
         const {image, address,city,listings_id, zip_code,state,country, publishedStatus, year_built,sq_Ft, beds, baths,parking, price, home_type, agency_id} = req.body;
         const listing = await Listing.findById({_id: listings_id});
         const agency = await RealEstate.findById({_id: agency_id});

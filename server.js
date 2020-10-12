@@ -28,15 +28,18 @@ app.use(session({
 }))
 
 mongoose.Promise = global.Promise;
-mongoose
-    .connect(process.env.MONGODBCLOUD, {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-        useUnifiedTopology: true
-    })
-    .then(() => console.log("database connected"))
-    .catch(err => console.log("could not connect database", err));
+if (process.env.NODE_ENV === 'production'){
+  mongoose
+  .connect(process.env.MONGODBCLOUD, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true
+  })
+  .then(() => console.log("database connected"))
+  .catch(err => console.log("could not connect database", err));
+
+}
 
 //MiddleWare
 // parse application/x-www-form-urlencoded
