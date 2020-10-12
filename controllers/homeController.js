@@ -14,7 +14,7 @@ console.log(RealEstate);
 router.get('/', async (req, res) => {
     try  {
 
-    const allHomes = await RealEstate.find();
+    const allHomes = await Home.find();
      res.json({
          status: 200,
          message: "All Homes Fetched", 
